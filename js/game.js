@@ -750,7 +750,7 @@ const Game = {
             
             this.flippedCards = [];
             this.canFlip = true;
-        }, 1200);
+        }, 1000);
     },
 
     endGame: function(isWin) {
@@ -776,57 +776,66 @@ const Game = {
 
     showWinMessage: function() {
         const finalTime = this.getFormattedTime();
-        
-        if (this.messageElement) {
-            this.messageElement.style.display = 'block';
-            this.messageElement.innerHTML = `
-                <div class="win-message">
-                    <div class="win-header">
-                        <h3>🎉 SELAMAT! 🎉</h3>
-                        <p>Anda berhasil menyelesaikan Level ${this.currentLevelId}!</p>
-                    </div>
-                    
-                    <div class="win-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Waktu:</span>
-                            <span class="stat-value">${finalTime}</span>
-                        </div>
-                    </div>
-                    
-                    <div class="win-buttons">
-                        <button id="next-level-btn" class="btn-reward">
-                            Lanjut ke Level Berikutnya
-                        </button>
-                        <button id="replay-level-btn" class="btn-secondary">
-                            Ulangi Level
-                        </button>
-                    </div>
+        // Hapus pesan lama jika ada
+        const oldModal = document.getElementById('win-modal-overlay');
+        if (oldModal) oldModal.remove();
+
+        // Buat overlay modal
+        const overlay = document.createElement('div');
+        overlay.id = 'win-modal-overlay';
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100vw';
+        overlay.style.height = '100vh';
+        overlay.style.background = 'rgba(0,0,0,0.5)';
+        overlay.style.display = 'flex';
+        overlay.style.justifyContent = 'center';
+        overlay.style.alignItems = 'center';
+        overlay.style.zIndex = '9999';
+
+        // Buat konten modal
+        const modal = document.createElement('div');
+        modal.className = 'win-message';
+        modal.innerHTML = `
+            <div class="win-header">
+                <h3>🎉 SELAMAT! 🎉</h3>
+                <p>Anda berhasil menyelesaikan Level ${this.currentLevelId}!</p>
+            </div>
+            <div class="win-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Waktu:</span>
+                    <span class="stat-value">${finalTime}</span>
                 </div>
-            `;
-        }
-        
-        setTimeout(() => {
-            const nextLevelBtn = document.getElementById('next-level-btn');
-            const replayBtn = document.getElementById('replay-level-btn');
-            
-            if (nextLevelBtn) {
-                nextLevelBtn.addEventListener('click', () => {
-                    const nextLevel = this.currentLevelId + 1;
-                    if (this.getLevelData(nextLevel)) {
-                        this.startLevel(nextLevel);
-                    } else {
-                        this.showScreen('level-selection');
-                    }
-                });
+            </div>
+            <div class="win-buttons">
+                <button id="next-level-btn" class="btn-reward">Lanjut ke Level Berikutnya</button>
+                <button id="replay-level-btn" class="btn-secondary">Ulangi Level</button>
+                <button id="back-menu-btn" class="btn-secondary">Kembali ke Menu</button>
+            </div>
+        `;
+
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        // Event tombol
+        document.getElementById('next-level-btn').onclick = () => {
+            overlay.remove();
+            const nextLevel = this.currentLevelId + 1;
+            if (this.getLevelData(nextLevel)) {
+                this.startLevel(nextLevel);
+            } else {
+                this.showScreen('level-selection');
             }
-            
-            if (replayBtn) {
-                replayBtn.addEventListener('click', () => {
-                    this.startLevel(this.currentLevelId);
-                });
-            }
-        }, 100);
-        
+        };
+        document.getElementById('replay-level-btn').onclick = () => {
+            overlay.remove();
+            this.startLevel(this.currentLevelId);
+        };
+        document.getElementById('back-menu-btn').onclick = () => {
+            overlay.remove();
+            window.location.href = 'index.html';
+        };
         if (typeof Utils !== 'undefined' && typeof Utils.createConfetti === 'function') {
             Utils.createConfetti();
         }

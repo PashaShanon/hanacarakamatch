@@ -471,6 +471,19 @@
 }
 
 @media (max-width: 480px) {
+    .jawa-board.grid-small,
+    .latin-board.grid-small,
+    .jawa-board.grid-medium,
+    .latin-board.grid-medium,
+    .jawa-board.grid-large,
+    .latin-board.grid-large,
+    .jawa-board.grid-xlarge,
+    .latin-board.grid-xlarge {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+    }
     .jawa-board.grid-small .card,
     .latin-board.grid-small .card,
     .jawa-board.grid-medium .card,
@@ -479,25 +492,55 @@
     .latin-board.grid-large .card,
     .jawa-board.grid-xlarge .card,
     .latin-board.grid-xlarge .card {
-        height: 70px;
+        height: 60px;
+        font-size: 1rem;
+        margin: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .game-header {
+        flex-direction: column;
+        gap: 10px;
+        padding: 0 5px;
+    }
+    .game-header h1 {
         font-size: 1.2rem;
     }
-    
+    .game-info {
+        flex-direction: column;
+        gap: 5px;
+        max-width: 100vw;
+        padding: 8px 5px;
+        font-size: 0.9rem;
+    }
     .message {
-        padding: 15px;
+        padding: 10px;
     }
-    
     .message h2 {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
     }
-    
     .message p {
+        font-size: 0.9rem;
+    }
+    #sentence {
+        font-size: 1rem !important;
+        padding: 6px;
+    }
+    .win-message {
+        max-width: 95vw;
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    .win-header h3 {
+        font-size: 1.2rem;
+    }
+    .win-header p {
         font-size: 1rem;
     }
-    
-    #sentence {
-        font-size: 1.1rem !important;
-        padding: 10px;
+    .win-buttons button {
+        font-size: 1rem;
+        padding: 0.7rem 1.2rem;
     }
 }
 /* ==========================
@@ -939,5 +982,30 @@ body {
     
     .win-buttons {
         flex-direction: column;
+    }
+    .game-board,
+    .jawa-board,
+    .latin-board {
+        justify-content: center !important;
+        align-items: center !important;
+        display: flex !important;
+        flex-wrap: wrap;
+    }
+    .game-board,
+    .jawa-board,
+    .latin-board {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 6px;
+    }
+    .jawa-board .card:nth-child(2n+1),
+    .latin-board .card:nth-child(2n+1) {
+        justify-self: end;
+    }
+    .jawa-board .card:nth-child(2n),
+    .latin-board .card:nth-child(2n) {
+        justify-self: start;
     }
 }
