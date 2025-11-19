@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Game - Memory Kartu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Javanese&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header class="game-header">
+            <!-- ✅ UBAH INI: index.html → game-levels.html -->
+            <a href="game-levels.html" class="back-btn">← Pilih Level</a>
+            <h1>Hanacaraka.Match</h1>
+        </header>
+        
+        <div class="game-info">
+            <div class="info-item">Waktu: <span id="timer">00:00</span></div>
+            <div class="info-item">Pasangan: <span id="matches">0</span>/<span id="total-pairs">0</span></div>
+            <!-- Menjadi: -->
+            <button id="reset-progress" class="reset-progress-btn" title="Reset Progres">
+                <span class="reset-icon">🔄</span>
+            </button>
+        </div>
+        
+        <!-- Container untuk pemisahan kiri-kanan -->
+        <div class="game-layout">
+            <div class="cards-section">
+                <h3 class="section-title">ꦲꦏ꧀ꦱꦫꦗꦮ</h3>
+                <div class="game-board jawa-board" id="jawa-board">
+                    <!-- generate kartu jawa di sini -->
+                </div>
+            </div>
+            
+            <div class="cards-section">
+                <h3 class="section-title">Latin</h3>
+                <div class="game-board latin-board" id="latin-board">
+                    <!-- generate kartu latin di sini -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button id="reset-btn">Reset</button>
+        </div>
+        
+        <div class="message" id="message">
+            <h2>Selamat!</h2>
+            <p>Anda telah menyelesaikan permainan!</p>
+            <p>Waktu yang diperlukan: <span id="final-time">00:00</span></p>
+            <p>Kalimat yang terbentuk: <span id="sentence"></span></p>
+            <button id="next-level-btn" style="display:none;">Selanjutnya ▶</button>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/statistics.js"></script>
+    <script src="js/game.js"></script>
+    <!-- ✅ URUTAN SCRIPT YANG BENAR -->
+    <script src="audio.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>

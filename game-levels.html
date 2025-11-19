@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilih Level - Memory Kartu</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/menu.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Javanese&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="level-selection-container">
+        <header class="menu-header">
+            <h2>Pilih Level</h2>
+            <a href="index.html" class="back-btn">← Kembali ke Beranda</a>
+        </header>
+        
+        <div class="levels-grid">
+            <!-- Level 1: "aku turu" -->
+            <div class="level-card" data-level="1">
+                <div class="level-number">1</div>
+                <div class="level-status">Buka</div>
+            </div>
+            
+            <!-- Level 2: "kota ponorogo" -->
+            <div class="level-card locked" data-level="2">
+                <div class="level-number">2</div>
+                <div class="level-status">Terkunci</div>
+                <div class="lock-icon">🔒</div>
+            </div>
+            
+            <!-- Level 3: "arek maca tulisan" -->
+            <div class="level-card locked" data-level="3">
+                <div class="level-number">3</div>
+                <div class="level-status">Terkunci</div>
+                <div class="lock-icon">🔒</div>
+            </div>
+            
+            <!-- Level 4: "ulo mateni pitike pasa" -->
+            <div class="level-card locked" data-level="4">
+                <div class="level-number">4</div>
+                <div class="level-status">Terkunci</div>
+                <div class="lock-icon">🔒</div>
+            </div>
+            
+            <!-- Level 5: "melu lomba festika jawa timur" -->
+            <div class="level-card locked" data-level="5">
+                <div class="level-number">5</div>
+                <div class="level-status">Terkunci</div>
+                <div class="lock-icon">🔒</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load unlocked levels
+            const unlockedLevels = JSON.parse(localStorage.getItem("unlockedLevels") || "[1]");
+            console.log('Unlocked Levels:', unlockedLevels);
+            
+            const levelCards = document.querySelectorAll('.level-card');
+            
+            levelCards.forEach(card => {
+                const levelId = parseInt(card.dataset.level);
+                const isUnlocked = unlockedLevels.includes(levelId);
+                
+                if (isUnlocked) {
+                    card.classList.remove('locked');
+                    card.querySelector('.lock-icon')?.remove();
+                    card.querySelector('.level-status').textContent = 'Buka';
+                }
+                
+                // Click event
+                card.addEventListener('click', function() {
+                    if (!this.classList.contains('locked')) {
+                        console.log(`🎯 Memulai Level ${levelId}`);
+                        localStorage.setItem("currentLevelId", levelId);
+                        window.location.href = "game.html";
+                    } else {
+                        this.style.animation = 'shake 0.5s';
+                        setTimeout(() => this.style.animation = '', 500);
+                    }
+                });
+            });
+            
+            Utils.loadTheme();
+        });
+    </script>
+</body>
+</html>

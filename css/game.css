@@ -1,0 +1,943 @@
+:root {
+    /* Default colors akan di-override oleh JavaScript */
+}
+
+/* Game Screen Styles */
+.container {
+    max-width: 1400px;
+    width: 100%;
+    text-align: center;
+    padding-top: 20px;
+    margin: 0 auto;
+}
+
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 0 20px;
+}
+
+.game-header h1 {
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+/* Game Info Styles */
+.game-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    background: var(--bg-card);
+    padding: 15px 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 1px solid var(--border-color);
+}
+
+/* Sound Toggle Button */
+.sound-btn {
+    background: var(--accent-primary);
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+.sound-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.sound-btn.muted {
+    background: var(--accent-danger);
+    opacity: 0.7;
+}
+
+.sound-icon {
+    font-size: 1.5rem;
+}
+
+.info-item {
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.info-item span {
+    font-weight: bold;
+    color: var(--accent-primary);
+    font-size: 1.3rem;
+}
+
+/* Styling khusus untuk pasangan X/Y */
+.matches-display {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.matches-current {
+    color: var(--accent-primary);
+}
+
+.matches-separator {
+    color: var(--text-secondary);
+}
+
+.matches-total {
+    color: var(--accent-secondary);
+}
+
+/* Game Layout Styles */
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 20px;
+    align-items: start;
+}
+
+.cards-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.section-title {
+    color: var(--accent-primary);
+    margin-bottom: 15px;
+    font-size: 1.4rem;
+    text-shadow: 1px 1px 2px var(--shadow-color);
+    padding: 10px 20px;
+    background: var(--bg-card);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 2px 4px var(--shadow-color);
+}
+
+/* Game Board Styles */
+.game-board {
+    display: grid;
+    gap: 10px;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Grid Size Variations untuk layout terpisah */
+.jawa-board.grid-small,
+.latin-board.grid-small {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 300px;
+}
+
+.jawa-board.grid-medium,
+.latin-board.grid-medium {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 350px;
+}
+
+.jawa-board.grid-large,
+.latin-board.grid-large {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 400px;
+}
+
+.jawa-board.grid-xlarge,
+.latin-board.grid-xlarge {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 450px;
+}
+
+/* Card Size Variations */
+.jawa-board.grid-small .card,
+.latin-board.grid-small .card {
+    height: 100px;
+    font-size: 1.8rem;
+}
+
+.jawa-board.grid-medium .card,
+.latin-board.grid-medium .card {
+    height: 90px;
+    font-size: 1.6rem;
+}
+
+.jawa-board.grid-large .card,
+.latin-board.grid-large .card {
+    height: 80px;
+    font-size: 1.4rem;
+}
+
+.jawa-board.grid-xlarge .card,
+.latin-board.grid-xlarge .card {
+    height: 70px;
+    font-size: 1.2rem;
+}
+
+/* Card Styles */
+.card {
+    position: relative;
+    background-color: var(--bg-secondary);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    aspect-ratio: 3/4;
+    border: 1px solid var(--border-color);
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.card-front {
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    color: white;
+    font-weight: bold;
+}
+
+.card-back {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa); /* ungu */
+    color: white;
+    transform: rotateY(180deg);
+    font-weight: bold;
+    border: 1px solid #7c3aed;
+}
+
+/* Styling khusus untuk kartu Jawa dengan hint Latin */
+.jawa-board .card-back {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa); /* ungu */
+    color: white;
+    font-family: 'Noto Sans Javanese', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #7c3aed;
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.jawa-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    height: 100%;
+}
+
+.jawa-character {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.latin-hint {
+    font-size: 0.75rem;
+    opacity: 0.85;
+    color: rgba(255, 255, 255, 0.9);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+    text-transform: lowercase;
+    letter-spacing: 0.5px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 3px 10px;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 5px;
+}
+
+/* Styling khusus untuk kartu Latin */
+.latin-board .card-back {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa); /* ungu */
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Matched Cards - prevent clicking */
+.card.matched {
+    pointer-events: none;
+    cursor: default;
+}
+
+/* Saat kartu dibalik (flipped) — kedua sisi jadi oren supaya jelas terlihat */
+.card.flipped .card-front,
+.card.flipped .card-back {
+    background: linear-gradient(135deg, #fb923c, #f59e42) !important; /* oren */
+    color: white !important;
+    border-color: #f59e42 !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* Saat kartu sudah match — kedua sisi jadi hijau */
+.card.matched .card-front,
+.card.matched .card-back {
+    background: linear-gradient(135deg, #22c55e, #16a34a) !important; /* hijau */
+    color: white !important;
+    border-color: #16a34a !important;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.12);
+}
+
+/* Shake Animation for Wrong Match */
+@keyframes shake {
+    0%, 100% { transform: translateX(0) rotateY(180deg); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px) rotateY(180deg); }
+    20%, 40%, 60%, 80% { transform: translateX(5px) rotateY(180deg); }
+}
+
+/* Controls Styles */
+.controls {
+    margin-bottom: 20px;
+}
+
+#reset-btn {
+    background: linear-gradient(135deg, var(--accent-warning), var(--accent-danger));
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+#reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px var(--shadow-color);
+}
+
+/* Message Styles */
+.message {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: none;
+    box-shadow: 0 4px 6px var(--shadow-color);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid var(--accent-success);
+    backdrop-filter: blur(10px);
+}
+
+.message h2 {
+    margin-bottom: 15px;
+    color: var(--accent-success);
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+.message p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+}
+
+#sentence {
+    display: block;
+    font-size: 1.4rem !important;
+    font-weight: bold !important;
+    color: var(--accent-success) !important;
+    margin-top: 15px !important;
+    padding: 15px;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    border: 1px solid var(--accent-success);
+    text-shadow: 1px 1px 2px var(--shadow-color);
+}
+
+#final-time {
+    color: var(--accent-primary);
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+/* Timer Animation */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.timer-pulse {
+    animation: pulse 1s infinite;
+}
+
+/* Timer Animation */
+.timer-danger {
+    color: red;
+    animation: glow 1s infinite;
+}
+@keyframes glow {
+    0% { text-shadow: 0 0 5px red; }
+    50% { text-shadow: 0 0 15px red; }
+    100% { text-shadow: 0 0 5px red; }
+}
+
+
+/* Responsive Game */
+@media (max-width: 1024px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .cards-section {
+        margin-bottom: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .game-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .game-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        gap: 10px;
+        max-width: 200px;
+    }
+    
+    .jawa-board.grid-small,
+    .latin-board.grid-small,
+    .jawa-board.grid-medium,
+    .latin-board.grid-medium,
+    .jawa-board.grid-large,
+    .latin-board.grid-large,
+    .jawa-board.grid-xlarge,
+    .latin-board.grid-xlarge {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 100%;
+    }
+    
+    .jawa-board.grid-small .card,
+    .latin-board.grid-small .card,
+    .jawa-board.grid-medium .card,
+    .latin-board.grid-medium .card,
+    .jawa-board.grid-large .card,
+    .latin-board.grid-large .card,
+    .jawa-board.grid-xlarge .card,
+    .latin-board.grid-xlarge .card {
+        height: 80px;
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .jawa-board.grid-small .card,
+    .latin-board.grid-small .card,
+    .jawa-board.grid-medium .card,
+    .latin-board.grid-medium .card,
+    .jawa-board.grid-large .card,
+    .latin-board.grid-large .card,
+    .jawa-board.grid-xlarge .card,
+    .latin-board.grid-xlarge .card {
+        height: 70px;
+        font-size: 1.2rem;
+    }
+    
+    .message {
+        padding: 15px;
+    }
+    
+    .message h2 {
+        font-size: 1.5rem;
+    }
+    
+    .message p {
+        font-size: 1rem;
+    }
+    
+    #sentence {
+        font-size: 1.1rem !important;
+        padding: 10px;
+    }
+}
+/* ==========================
+   Grid dan Font Dinamis per Level
+=========================== */
+
+/* Level 1: 4 pasang (8 kartu) */
+.jawa-board.level-1,
+.latin-board.level-1 {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 400px;
+}
+.jawa-board.level-1 .card,
+.latin-board.level-1 .card {
+    height: 90px;
+    font-size: 2rem;
+}
+
+/* Level 2: 6 pasang (12 kartu) */
+.jawa-board.level-2,
+.latin-board.level-2 {
+    grid-template-columns: repeat(6, 1fr);
+    max-width: 600px;
+}
+.jawa-board.level-2 .card,
+.latin-board.level-2 .card {
+    height: 80px;
+    font-size: 1.5rem;
+}
+
+/* Level 3: 8 pasang (16 kartu) */
+.jawa-board.level-3,
+.latin-board.level-3 {
+    grid-template-columns: repeat(8, 1fr);
+    max-width: 800px;
+}
+.jawa-board.level-3 .card,
+.latin-board.level-3 .card {
+    height: 70px;
+    font-size: 1.0rem;
+}
+
+/* Level 4: 10 pasang (20 kartu) */
+.jawa-board.level-4,
+.latin-board.level-4 {
+    grid-template-columns: repeat(10, 1fr);
+    max-width: 1000px;
+}
+.jawa-board.level-4 .card,
+.latin-board.level-4 .card {
+    height: 60px;
+    font-size: 1.4rem;
+}
+
+/* Level 5: 12 pasang (24 kartu) */
+.jawa-board.level-5,
+.latin-board.level-5 {
+    grid-template-columns: repeat(12, 1fr);
+    max-width: 1200px;
+}
+.jawa-board.level-5 .card,
+.latin-board.level-5 .card {
+    height: 50px;
+    font-size: 1.2rem;
+}
+
+/* Agar aksara Jawa selalu centered */
+.jawa-character {
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* Beranda Styles */
+.menu-container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 4rem;
+}
+
+.game-title {
+    margin-bottom: 3rem;
+}
+
+.game-title h1 {
+    font-size: 3rem;
+    color: white;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.game-title p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-style: italic;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* Level Selection Styles */
+.level-selection-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.level-selection-container h2 {
+    color: #2c3e50;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+}
+
+.levels-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    margin: 3rem 0;
+}
+
+.level-card {
+    position: relative;
+    padding: 2rem 1rem;
+    background: linear-gradient(145deg, #f1c40f, #f39c12);
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.level-card:hover:not(.locked) {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(243, 156, 18, 0.6);
+}
+
+.level-card.locked {
+    background: linear-gradient(145deg, #95a5a6, #7f8c8d);
+    cursor: not-allowed;
+    box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+}
+
+.level-card.locked:hover {
+    transform: none;
+    box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+}
+
+.level-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin-bottom: 0.5rem;
+}
+
+.level-info {
+    font-size: 0.9rem;
+    color: white;
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    font-weight: 500;
+}
+
+.level-status {
+    font-size: 0.8rem;
+    color: white;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.lock-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+/* Button Styles */
+.btn-primary, .btn-secondary {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(145deg, #f1c40f, #f39c12);
+    color: white;
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(243, 156, 18, 0.6);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 2px solid white;
+}
+
+.btn-secondary:hover {
+    background: white;
+    color: #667eea;
+}
+
+/* Game Screen */
+#game-screen {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 1rem;
+}
+/* Win Message Styles */
+.win-message {
+    text-align: center;
+    background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    color: white;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.win-header h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.win-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.win-stats {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    backdrop-filter: blur(10px);
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stat-item:last-child {
+    border-bottom: none;
+}
+
+.stat-label {
+    font-weight: bold;
+    opacity: 0.8;
+}
+
+.stat-value {
+    font-weight: bold;
+    color: #f1c40f;
+}
+
+/* Reward Section */
+.reward-section {
+    background: rgba(241, 196, 15, 0.2);
+    padding: 1.5rem;
+    border-radius: 15px;
+    margin: 1.5rem 0;
+    border: 2px solid #f1c40f;
+}
+
+.reward-amount {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #f1c40f;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.reward-note {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    font-style: italic;
+}
+
+/* Win Buttons */
+.win-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-reward {
+    background: linear-gradient(145deg, #f1c40f, #f39c12);
+    color: white;
+    border: none;
+    padding: 1.2rem 2rem;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(243, 156, 18, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-reward:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(243, 156, 18, 0.6);
+    background: linear-gradient(145deg, #f39c12, #e67e22);
+}
+
+/* Reward Claimed Message */
+.reward-claimed-message {
+    text-align: center;
+    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    padding: 3rem 2rem;
+    border-radius: 20px;
+    color: white;
+}
+
+.reward-success .success-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    animation: scaleIn 0.5s ease-out;
+}
+
+.reward-amount-success {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    animation: pulse 1.5s infinite;
+}
+
+/* Animations */
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-10px);
+    }
+    60% {
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes scaleIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    70% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .win-message {
+        padding: 1.5rem;
+        margin: 1rem;
+    }
+    
+    .win-header h3 {
+        font-size: 1.5rem;
+    }
+    
+    .reward-amount {
+        font-size: 1.5rem;
+    }
+    
+    .btn-reward {
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+    }
+    
+    .win-buttons {
+        flex-direction: column;
+    }
+}
