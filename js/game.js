@@ -858,6 +858,6 @@ const Game = {
 };
 
 // Initialize jika website dimuat
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function() {
     Game.init();
 });
